@@ -34,7 +34,7 @@ export default function SearchForm({
           <div className="flex-grow">
             <div className="relative">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <span className="material-icons text-gray-400">search</span>
+                <span className="material-icons text-gray-400"></span>
               </span>
               <Input
                 type="text"
