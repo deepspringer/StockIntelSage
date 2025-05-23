@@ -31,17 +31,21 @@ export async function fetchCompanyData(
       Be specific about the sources of the information.`,
     });
 
-    // Extract web search results
+    // Extract web search results and citations
     console.log("Web search completed, processing results...");
-    console.log("Full response structure:", JSON.stringify(webSearchResponse, null, 2));
     
-    // Extract results from the output array
-    const webSearchResults = webSearchResponse.output[1]?.content[0]?.text;
-    const citations = webSearchResponse.output[1]?.content[0]?.annotations;
-    
-    if (!webSearchResults) {
+    const messageContent = webSearchResponse.output[1]?.content[0];
+    if (!messageContent) {
       throw new Error("Could not extract web search results from response");
     }
+    
+    const webSearchResults = messageContent.text;
+    const citations = messageContent.annotations?.map(citation => ({
+      title: citation.title,
+      url: citation.url,
+      startIndex: citation.start_index,
+      endIndex: citation.end_index
+    })) || [];
     
     console.log("Web search results:", webSearchResults);
     console.log("Citations:", citations);
