@@ -16,14 +16,12 @@ export async function fetchCompanyData(
 
     // First, use the Responses API with web search to get up-to-date information
     const webSearchResponse = await openai.responses.create({
-      model: "gpt-4.1", // Using GPT-4.1 which supports web search
-      tools: [
-        {
-          type: "web_search_preview",
-          search_context_size: "medium", // Balanced between cost and comprehensive results
-        },
-      ],
-      input: `Please search for the most up-to-date financial information and news for ${companyName}, including:
+      model: "gpt-4.1",
+      tools: [{
+        type: "web_search_preview",
+        search_context_size: "high", // Using high context for comprehensive financial data
+      }],
+      input: `Search for the latest financial information and news about ${companyName}, including:
       
       1. Current stock price and recent performance
       2. Latest financial metrics and earnings information
@@ -35,10 +33,12 @@ export async function fetchCompanyData(
 
     // Extract web search results
     console.log("Web search completed, processing results...");
-    const webSearchResults = webSearchResponse.output_text;
+    // Extract results from the message content
+    const webSearchResults = webSearchResponse.content[0].text;
+    const citations = webSearchResponse.content[0].annotations;
+    
     console.log("Web search results:", webSearchResults);
-
-    console.log("Web search response:", webSearchResponse);
+    console.log("Citations:", citations);
 
     // Now format the data into our required JSON structure
     const prompt = `
