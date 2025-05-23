@@ -18,6 +18,8 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
     4. Stock price prediction for the next 30 days with predicted range
     5. Detailed analysis of 3-5 recent news articles that impact the stock price
 
+    IMPORTANT: Today's date is May 23, 2025. All news articles, financial data, and other information should be from 2025 (primarily) or late 2024. Do not include any news or data from before 2024.
+
     Format the response as a JSON object with the following structure:
     {
       "companyInfo": {
@@ -52,7 +54,7 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
         {
           "title": "Article title",
           "source": "News source",
-          "date": "Publication date",
+          "date": "Publication date from 2025 only",
           "summary": "Brief summary",
           "sentiment": "positive/negative/neutral",
           "keyPoints": ["key point 1", "key point 2", "etc"],
@@ -70,7 +72,7 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
       ]
     }
     
-    Do not include the word "mock" or "example" in any text. Provide realistic data based on current information about the company.
+    Do not include the word "mock" or "example" in any text. Provide realistic data based on current information about the company, but make sure all dates are from 2025 or very late 2024.
     `;
 
     // Call the OpenAI API for analysis
