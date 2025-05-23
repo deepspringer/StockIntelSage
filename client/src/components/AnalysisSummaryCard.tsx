@@ -43,6 +43,19 @@ export default function AnalysisSummaryCard({
             </span>
           </div>
           <p className="text-sm text-gray-600">{sentimentAnalysis.summary}</p>
+          {sentimentAnalysis.dataSource && (
+            <div className="mt-2">
+              <a 
+                href={sentimentAnalysis.dataSource}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-primary hover:text-primary/80 hover:underline inline-flex items-center"
+              >
+                <span className="material-icons text-xs mr-1">source</span>
+                View Source
+              </a>
+            </div>
+          )}
         </div>
         
         <div className="flex-1 p-4 bg-white rounded-md shadow-sm">
@@ -53,6 +66,19 @@ export default function AnalysisSummaryCard({
             </span>
           </div>
           <p className="text-sm text-gray-600">{financialIndicators.summary}</p>
+          {financialIndicators.dataSource && (
+            <div className="mt-2">
+              <a 
+                href={financialIndicators.dataSource}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-primary hover:text-primary/80 hover:underline inline-flex items-center"
+              >
+                <span className="material-icons text-xs mr-1">source</span>
+                View Financial Data
+              </a>
+            </div>
+          )}
         </div>
         
         <div className="flex-1 p-4 bg-white rounded-md shadow-sm">
@@ -63,6 +89,19 @@ export default function AnalysisSummaryCard({
             </span>
           </div>
           <p className="text-sm text-gray-600">{pricePrediction.summary}</p>
+          {pricePrediction.dataSource && (
+            <div className="mt-2">
+              <a 
+                href={pricePrediction.dataSource}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-primary hover:text-primary/80 hover:underline inline-flex items-center"
+              >
+                <span className="material-icons text-xs mr-1">source</span>
+                View Analyst Predictions
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </div>

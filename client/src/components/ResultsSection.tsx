@@ -35,6 +35,19 @@ export default function ResultsSection({ analysisResult }: ResultsSectionProps) 
             </h2>
             <p className="text-gray-500 text-sm">
               Analysis completed on {companyInfo.analysisDate} at {companyInfo.analysisTime}
+              {companyInfo.dataSource && (
+                <span className="ml-1">
+                  <a 
+                    href={companyInfo.dataSource}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:text-primary/80 hover:underline inline-flex items-center"
+                  >
+                    <span className="material-icons text-xs mr-1">link</span>
+                    Source
+                  </a>
+                </span>
+              )}
             </p>
           </div>
           <div className="flex items-center">
