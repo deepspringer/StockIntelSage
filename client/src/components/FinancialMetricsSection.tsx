@@ -21,7 +21,8 @@ export default function FinancialMetricsSection({ financialMetrics }: FinancialM
   };
 
   // Helper function to get YoY change color
-  const getChangeColor = (change: string) => {
+  const getChangeColor = (change: string | null | undefined) => {
+    if (!change) return '';
     return change.startsWith('+') 
       ? 'text-status-positive' 
       : change.startsWith('-') 
