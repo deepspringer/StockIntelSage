@@ -8,30 +8,33 @@ const openai = new OpenAI({
 
 export async function fetchCompanyData(companyName: string): Promise<AnalysisResult> {
   try {
-    // Create a detailed prompt for the OpenAI API
-    const prompt = `
-    I need a comprehensive financial analysis for ${companyName}. Please provide:
-
-    1. Basic company information including ticker symbol and current stock price with recent price change percentage
-    2. Recent news sentiment analysis with percentages for positive, neutral, and negative coverage
-    3. Key financial indicators and metrics with year-over-year changes and industry comparisons
-    4. Stock price prediction for the next 30 days with predicted range
-    5. Detailed analysis of 3-5 recent news articles that impact the stock price
-
-    IMPORTANT: Today's date is May 23, 2025. All news articles, financial data, and other information should be from 2025 (primarily) or late 2024. Do not include any news or data from before 2024.
+    console.log(`Fetching real-time data for ${companyName}...`);
     
-    For source attribution, include the names of the sources (e.g., "Yahoo Finance", "Bloomberg", "Reuters") for each data point, but do not include URLs as they won't be functional.
+    // Use the Chat Completions API with custom system prompt to get financial analysis
+    // While we could use the web search capability directly with the Responses API, 
+    // we'll stick with the Chat Completions API for this implementation since it doesn't require model changes
+    const prompt = `
+    I need a comprehensive financial analysis for ${companyName}. Search for real, up-to-date information including:
 
-    Format the response as a JSON object with the following structure:
+    1. Current stock information (price, ticker symbol, recent price changes)
+    2. Latest news articles about the company and their sentiment
+    3. Recent financial metrics and business developments
+    4. Analyst predictions and price targets
+    
+    For all information, include specific sources (e.g., "According to Yahoo Finance," "As reported by Bloomberg").
+    
+    The date today is ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}.
+    
+    Format your response as a JSON object with the following structure:
     {
       "companyInfo": {
         "name": "Full company name with ticker",
         "tickerSymbol": "TICKER",
         "currentPrice": "$XX.XX",
         "priceChange": "+/-X.XX%",
-        "analysisDate": "Current date in format 'Month Day, Year'",
-        "analysisTime": "Current time in format 'H:MM AM/PM'",
-        "source": "Name of source (e.g., Yahoo Finance, MarketWatch)"
+        "analysisDate": "${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}",
+        "analysisTime": "${new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}",
+        "source": "Name of source for stock price data"
       },
       "sentimentAnalysis": {
         "positive": percentage of positive news (number),
@@ -45,7 +48,7 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
       "financialIndicators": {
         "status": "strong/weak/neutral",
         "summary": "Summary of financial health",
-        "source": "Name of financial data source (e.g., Q1 2025 Earnings Report)"
+        "source": "Name of financial data source"
       },
       "pricePrediction": {
         "status": "bullish/bearish/neutral",
@@ -54,13 +57,13 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
         "maxPrice": maximum predicted price (number),
         "currentPrice": current stock price as number,
         "priceChange": "+/-X.XX%",
-        "source": "Name of source for predictions (e.g., Morgan Stanley Analyst Report)"
+        "source": "Name of source for predictions"
       },
       "newsItems": [
         {
           "title": "Article title",
-          "source": "News source (e.g., Bloomberg, CNBC, WSJ)",
-          "date": "Publication date from 2025 only",
+          "source": "News source name",
+          "date": "Publication date",
           "summary": "Brief summary",
           "sentiment": "positive/negative/neutral",
           "keyPoints": ["key point 1", "key point 2", "etc"],
@@ -74,23 +77,27 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
           "yoyChange": "+/-X.X%" year-over-year change,
           "industryAvg": "Industry average with units",
           "impact": "positive/negative/neutral/strong",
-          "source": "Name of specific financial metric source (e.g., Q1 2025 Financial Statement)"
+          "source": "Name of specific financial metric source"
         }
       ]
     }
     
-    Do not include the word "mock" or "example" in any text. Provide realistic data based on current information about the company, but make sure all dates are from 2025 or very late 2024.
+    Use real data found through your knowledge. No mock or placeholder data.
+    Be consistent with source attribution. If you cannot find specific information, estimate reasonably based on available data, but be clear about which parts are estimates.
     `;
 
     // Call the OpenAI API for analysis
     const response = await openai.chat.completions.create({
-      model: "gpt-4o", // Using the latest model
+      model: "gpt-4o", // Using GPT-4o as it has good current knowledge
       messages: [
-        { role: "system", content: "You are a financial analyst AI with access to current market data and news. Provide accurate, detailed analysis of companies and their stock performance." },
+        { 
+          role: "system", 
+          content: "You are a financial analyst AI with knowledge of current stock market data, company financials, and business news up to your training cutoff. Provide accurate, well-sourced financial analysis."
+        },
         { role: "user", content: prompt }
       ],
       response_format: { type: "json_object" },
-      temperature: 0.7,
+      temperature: 0.5,
     });
 
     // Parse the response
@@ -98,6 +105,8 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
     if (!content) {
       throw new Error("No content received from OpenAI");
     }
+
+    console.log("Financial analysis response received");
 
     // Parse the JSON response
     const analysisData = JSON.parse(content) as AnalysisResult;
