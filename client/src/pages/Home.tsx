@@ -46,6 +46,8 @@ export default function Home() {
       }));
     },
     onSuccess: (response) => {
+      console.log("[Client] API Response:", response);
+      console.log("[Client] News Items:", response.data?.newsItems);
       if (response.success && response.data) {
         setState(prev => ({
           ...prev,
