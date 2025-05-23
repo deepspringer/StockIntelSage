@@ -51,7 +51,20 @@ export default function FinancialMetricsSection({ financialMetrics }: FinancialM
               <tr key={index}>
                 <td className="px-4 py-3 whitespace-nowrap">
                   <div className="flex items-center">
-                    <div className="text-sm font-medium text-gray-900">{metric.name}</div>
+                    <div className="text-sm font-medium text-gray-900">
+                      {metric.name}
+                      {metric.dataSource && (
+                        <a 
+                          href={metric.dataSource} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="ml-1 inline-flex text-primary hover:text-primary/80"
+                          title="View source"
+                        >
+                          <span className="material-icons text-sm">link</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
