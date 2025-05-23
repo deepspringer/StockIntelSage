@@ -54,19 +54,7 @@ export default function NewsFeedSection({ newsItems }: NewsFeedSectionProps) {
                     <span className="text-gray-500 text-xs">{item.source} • {item.date}</span>
                   </div>
                   <h4 className="font-medium mb-1">
-                    {item.url ? (
-                      <a 
-                        href={item.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="hover:text-primary transition-colors hover:underline flex items-center"
-                      >
-                        {item.title}
-                        <span className="material-icons text-sm ml-1">open_in_new</span>
-                      </a>
-                    ) : (
-                      item.title
-                    )}
+                    {item.title}
                   </h4>
                   <p className="text-sm text-gray-600 mb-2">{item.summary}</p>
                   <div className="text-xs text-gray-500">

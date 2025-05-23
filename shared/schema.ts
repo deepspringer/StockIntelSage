@@ -58,7 +58,6 @@ export const newsItemSchema = z.object({
   title: z.string(),
   source: z.string(),
   date: z.string(),
-  url: z.string().url().optional(),
   summary: z.string(),
   sentiment: z.enum(["positive", "negative", "neutral"]),
   keyPoints: z.array(z.string()),
@@ -73,7 +72,7 @@ export const financialMetricSchema = z.object({
   yoyChange: z.string(),
   industryAvg: z.string(),
   impact: z.enum(["positive", "negative", "neutral", "strong"]),
-  dataSource: z.string().url().optional(),
+  source: z.string().optional(),
 });
 
 export type FinancialMetric = z.infer<typeof financialMetricSchema>;
@@ -85,7 +84,7 @@ export const sentimentAnalysisSchema = z.object({
   articleCount: z.number(),
   overall: z.enum(["positive", "negative", "neutral"]),
   summary: z.string(),
-  dataSource: z.string().url().optional(),
+  source: z.string().optional(),
 });
 
 export type SentimentAnalysis = z.infer<typeof sentimentAnalysisSchema>;
@@ -93,7 +92,7 @@ export type SentimentAnalysis = z.infer<typeof sentimentAnalysisSchema>;
 export const financialIndicatorsSchema = z.object({
   status: z.enum(["strong", "weak", "neutral"]),
   summary: z.string(),
-  dataSource: z.string().url().optional(),
+  source: z.string().optional(),
 });
 
 export type FinancialIndicators = z.infer<typeof financialIndicatorsSchema>;
@@ -105,7 +104,7 @@ export const pricePredictionSchema = z.object({
   maxPrice: z.number(),
   currentPrice: z.number(),
   priceChange: z.string(),
-  dataSource: z.string().url().optional(),
+  source: z.string().optional(),
 });
 
 export type PricePrediction = z.infer<typeof pricePredictionSchema>;
@@ -117,7 +116,7 @@ export const companyInfoSchema = z.object({
   priceChange: z.string(),
   analysisDate: z.string(),
   analysisTime: z.string(),
-  dataSource: z.string().url().optional(),
+  source: z.string().optional(),
 });
 
 export type CompanyInfo = z.infer<typeof companyInfoSchema>;

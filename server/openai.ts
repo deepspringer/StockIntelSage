@@ -20,7 +20,7 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
 
     IMPORTANT: Today's date is May 23, 2025. All news articles, financial data, and other information should be from 2025 (primarily) or late 2024. Do not include any news or data from before 2024.
     
-    CRITICAL: Include real URLs/links to sources for all financial data and news articles. These links should go to actual business/finance websites (Bloomberg, CNBC, Reuters, Financial Times, Yahoo Finance, WSJ, company IR pages, etc).
+    For source attribution, include the names of the sources (e.g., "Yahoo Finance", "Bloomberg", "Reuters") for each data point, but do not include URLs as they won't be functional.
 
     Format the response as a JSON object with the following structure:
     {
@@ -31,7 +31,7 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
         "priceChange": "+/-X.XX%",
         "analysisDate": "Current date in format 'Month Day, Year'",
         "analysisTime": "Current time in format 'H:MM AM/PM'",
-        "dataSource": "URL to source of stock price data (Yahoo Finance, MarketWatch, etc)"
+        "source": "Name of source (e.g., Yahoo Finance, MarketWatch)"
       },
       "sentimentAnalysis": {
         "positive": percentage of positive news (number),
@@ -40,12 +40,12 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
         "articleCount": number of articles analyzed (number),
         "overall": "positive/negative/neutral",
         "summary": "Brief summary of sentiment analysis",
-        "dataSource": "URL to sentiment analysis methodology or data source"
+        "source": "Name of sentiment analysis methodology or data source"
       },
       "financialIndicators": {
         "status": "strong/weak/neutral",
         "summary": "Summary of financial health",
-        "dataSource": "URL to financial data source (company quarterly report, etc)"
+        "source": "Name of financial data source (e.g., Q1 2025 Earnings Report)"
       },
       "pricePrediction": {
         "status": "bullish/bearish/neutral",
@@ -54,14 +54,13 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
         "maxPrice": maximum predicted price (number),
         "currentPrice": current stock price as number,
         "priceChange": "+/-X.XX%",
-        "dataSource": "URL to source of analyst predictions or market consensus"
+        "source": "Name of source for predictions (e.g., Morgan Stanley Analyst Report)"
       },
       "newsItems": [
         {
           "title": "Article title",
-          "source": "News source",
+          "source": "News source (e.g., Bloomberg, CNBC, WSJ)",
           "date": "Publication date from 2025 only",
-          "url": "URL to the actual news article",
           "summary": "Brief summary",
           "sentiment": "positive/negative/neutral",
           "keyPoints": ["key point 1", "key point 2", "etc"],
@@ -75,12 +74,12 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
           "yoyChange": "+/-X.X%" year-over-year change,
           "industryAvg": "Industry average with units",
           "impact": "positive/negative/neutral/strong",
-          "dataSource": "URL to source of this specific financial metric"
+          "source": "Name of specific financial metric source (e.g., Q1 2025 Financial Statement)"
         }
       ]
     }
     
-    Do not include the word "mock" or "example" in any text. Provide realistic data based on current information about the company, but make sure all dates are from 2025 or very late 2024. All URLs must be actual finance websites or business news sources.
+    Do not include the word "mock" or "example" in any text. Provide realistic data based on current information about the company, but make sure all dates are from 2025 or very late 2024.
     `;
 
     // Call the OpenAI API for analysis

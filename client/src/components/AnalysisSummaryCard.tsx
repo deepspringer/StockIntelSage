@@ -43,17 +43,12 @@ export default function AnalysisSummaryCard({
             </span>
           </div>
           <p className="text-sm text-gray-600">{sentimentAnalysis.summary}</p>
-          {sentimentAnalysis.dataSource && (
+          {sentimentAnalysis.source && (
             <div className="mt-2">
-              <a 
-                href={sentimentAnalysis.dataSource}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-primary hover:text-primary/80 hover:underline inline-flex items-center"
-              >
+              <span className="text-xs text-primary inline-flex items-center">
                 <span className="material-icons text-xs mr-1">source</span>
-                View Source
-              </a>
+                Source: {sentimentAnalysis.source}
+              </span>
             </div>
           )}
         </div>
@@ -66,17 +61,12 @@ export default function AnalysisSummaryCard({
             </span>
           </div>
           <p className="text-sm text-gray-600">{financialIndicators.summary}</p>
-          {financialIndicators.dataSource && (
+          {financialIndicators.source && (
             <div className="mt-2">
-              <a 
-                href={financialIndicators.dataSource}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-primary hover:text-primary/80 hover:underline inline-flex items-center"
-              >
+              <span className="text-xs text-primary inline-flex items-center">
                 <span className="material-icons text-xs mr-1">source</span>
-                View Financial Data
-              </a>
+                Source: {financialIndicators.source}
+              </span>
             </div>
           )}
         </div>
@@ -89,17 +79,12 @@ export default function AnalysisSummaryCard({
             </span>
           </div>
           <p className="text-sm text-gray-600">{pricePrediction.summary}</p>
-          {pricePrediction.dataSource && (
+          {pricePrediction.source && (
             <div className="mt-2">
-              <a 
-                href={pricePrediction.dataSource}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-primary hover:text-primary/80 hover:underline inline-flex items-center"
-              >
+              <span className="text-xs text-primary inline-flex items-center">
                 <span className="material-icons text-xs mr-1">source</span>
-                View Analyst Predictions
-              </a>
+                Source: {pricePrediction.source}
+              </span>
             </div>
           )}
         </div>
