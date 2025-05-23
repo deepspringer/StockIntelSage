@@ -53,7 +53,18 @@ export async function fetchCompanyData(
     console.log("Web search results:", webSearchResults);
     console.log("Citations:", citations);
 
-    // Now format the data into our required JSON structure
+    // Create initial news items from citations
+    const initialNewsItems = citations.map(citation => ({
+      title: citation.title,
+      source: citation.url,
+      date: "",
+      summary: "",
+      sentiment: "neutral",
+      keyPoints: [],
+      priceImpact: 0
+    }));
+
+    // Now format the data into our required JSON structure, including original citations
     const prompt = `
     Based on this recent web search information about ${companyName}:
     
@@ -145,6 +156,10 @@ export async function fetchCompanyData(
 
     // Parse the JSON response
     const analysisData = JSON.parse(content) as AnalysisResult;
+    
+    // Merge with original citations
+    analysisData.newsItems = [...initialNewsItems, ...analysisData.newsItems];
+    
     return analysisData;
   } catch (error) {
     console.error("Error fetching company data from OpenAI:", error);
