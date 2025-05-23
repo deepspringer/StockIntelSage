@@ -8,24 +8,36 @@ const openai = new OpenAI({
 
 export async function fetchCompanyData(companyName: string): Promise<AnalysisResult> {
   try {
-    console.log(`Fetching real-time data for ${companyName}...`);
+    console.log(`Fetching real-time data for ${companyName} using web search...`);
     
-    // Use the Chat Completions API with custom system prompt to get financial analysis
-    // While we could use the web search capability directly with the Responses API, 
-    // we'll stick with the Chat Completions API for this implementation since it doesn't require model changes
+    // First, use the Responses API with web search to get up-to-date information
+    const webSearchResponse = await openai.responses.create({
+      model: "gpt-4.1", // Using GPT-4.1 which supports web search
+      tools: [{ 
+        type: "web_search_preview",
+        search_context_size: "medium" // Balanced between cost and comprehensive results
+      }],
+      input: `Please search for the most up-to-date financial information and news for ${companyName}, including:
+      
+      1. Current stock price and recent performance
+      2. Latest financial metrics and earnings information
+      3. Recent news coverage and sentiment
+      4. Analyst ratings and price predictions
+      
+      Be specific about the sources of the information.`
+    });
+    
+    // Extract web search results
+    console.log("Web search completed, processing results...");
+    const webSearchResults = webSearchResponse.output_text;
+    
+    // Now format the data into our required JSON structure
     const prompt = `
-    I need a comprehensive financial analysis for ${companyName}. Search for real, up-to-date information including:
-
-    1. Current stock information (price, ticker symbol, recent price changes)
-    2. Latest news articles about the company and their sentiment
-    3. Recent financial metrics and business developments
-    4. Analyst predictions and price targets
+    Based on this recent web search information about ${companyName}:
     
-    For all information, include specific sources (e.g., "According to Yahoo Finance," "As reported by Bloomberg").
+    ${webSearchResults}
     
-    The date today is ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}.
-    
-    Format your response as a JSON object with the following structure:
+    Format the data into this JSON structure:
     {
       "companyInfo": {
         "name": "Full company name with ticker",
@@ -82,22 +94,22 @@ export async function fetchCompanyData(companyName: string): Promise<AnalysisRes
       ]
     }
     
-    Use real data found through your knowledge. No mock or placeholder data.
-    Be consistent with source attribution. If you cannot find specific information, estimate reasonably based on available data, but be clear about which parts are estimates.
+    Use only real data found in the web search results. Include specific source attribution for all data points. 
+    If you cannot find specific information, indicate that in the relevant field rather than making up data.
     `;
 
-    // Call the OpenAI API for analysis
+    // Format the web search results into our JSON structure
     const response = await openai.chat.completions.create({
-      model: "gpt-4o", // Using GPT-4o as it has good current knowledge
+      model: "gpt-4o",
       messages: [
         { 
           role: "system", 
-          content: "You are a financial analyst AI with knowledge of current stock market data, company financials, and business news up to your training cutoff. Provide accurate, well-sourced financial analysis."
+          content: "You are a financial data processor that accurately formats real financial information from web searches into structured JSON for financial analysis."
         },
         { role: "user", content: prompt }
       ],
       response_format: { type: "json_object" },
-      temperature: 0.5,
+      temperature: 0.3, // Lower temperature for more factual formatting
     });
 
     // Parse the response
