@@ -40,12 +40,15 @@ export async function fetchCompanyData(
     }
     
     const webSearchResults = messageContent.text;
-    const citations = messageContent.annotations?.map(citation => ({
-      title: citation.title,
-      url: citation.url,
-      startIndex: citation.start_index,
-      endIndex: citation.end_index
-    })) || [];
+    const citations = messageContent.annotations?.map(citation => {
+      console.log("[Server] Original citation URL:", citation.url);
+      return {
+        title: citation.title,
+        url: citation.url,
+        startIndex: citation.start_index,
+        endIndex: citation.end_index
+      };
+    }) || [];
     
     console.log("Web search results:", webSearchResults);
     console.log("Citations:", citations);

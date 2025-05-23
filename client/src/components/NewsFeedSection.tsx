@@ -56,6 +56,7 @@ export default function NewsFeedSection({ newsItems }: NewsFeedSectionProps) {
                     <span className="text-gray-500 text-xs">
                       {item.source && (
                         <>
+                          {console.log("[Client] News item source URL:", item.source)}
                           <a 
                             href={item.source} 
                             target="_blank" 
