@@ -53,16 +53,13 @@ export default function FinancialMetricsSection({ financialMetrics }: FinancialM
                   <div className="flex items-center">
                     <div className="text-sm font-medium text-gray-900">
                       {metric.name}
-                      {metric.dataSource && (
-                        <a 
-                          href={metric.dataSource} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="ml-1 inline-flex text-primary hover:text-primary/80"
-                          title="View source"
+                      {metric.source && (
+                        <span 
+                          className="ml-1 inline-flex text-primary cursor-help"
+                          title={`Source: ${metric.source}`}
                         >
-                          <span className="material-icons text-sm">link</span>
-                        </a>
+                          <span className="material-icons text-sm">info</span>
+                        </span>
                       )}
                     </div>
                   </div>
