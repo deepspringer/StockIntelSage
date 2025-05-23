@@ -35,9 +35,9 @@ export async function fetchCompanyData(
     console.log("Web search completed, processing results...");
     console.log("Full response structure:", JSON.stringify(webSearchResponse, null, 2));
     
-    // Extract results from the message content at index 1
-    const webSearchResults = webSearchResponse[1]?.content[0]?.text;
-    const citations = webSearchResponse[1]?.content[0]?.annotations;
+    // Extract results from the output array
+    const webSearchResults = webSearchResponse.output[1]?.content[0]?.text;
+    const citations = webSearchResponse.output[1]?.content[0]?.annotations;
     
     if (!webSearchResults) {
       throw new Error("Could not extract web search results from response");
