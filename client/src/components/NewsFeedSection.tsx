@@ -55,15 +55,25 @@ export default function NewsFeedSection({ newsItems }: NewsFeedSectionProps) {
                     </span>
                     <span className="text-gray-500 text-xs">
                       {item.source && (
-                        <a 
-                          href={item.source} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="hover:text-primary"
-                        >
-                          {new URL(item.source).hostname.replace('www.', '')}
-                        </a>
-                      )} • {item.date}
+                        <>
+                          <a 
+                            href={item.source} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="hover:text-primary"
+                          >
+                            {(() => {
+                              try {
+                                return new URL(item.source).hostname.replace('www.', '');
+                              } catch {
+                                return item.source;
+                              }
+                            })()}
+                          </a>
+                          {' • '}
+                        </>
+                      )}
+                      {item.date}
                     </span>
                   </div>
                   <h4 className="font-medium mb-1">
